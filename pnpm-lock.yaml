@@ -12,6 +12,12 @@ importers:
         specifier: ^4.0.19
         version: 4.0.19
 
+  01-quickstart:
+    devDependencies:
+      '@ui5/cli':
+        specifier: ^4.0.19
+        version: 4.0.19
+
 packages:
 
   '@adobe/css-tools@4.4.3':
