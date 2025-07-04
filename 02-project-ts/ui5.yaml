@@ -1,0 +1,24 @@
+specVersion: "4.0"
+metadata:
+  name: ui5.02-project-ts
+server:
+  customMiddleware:
+    - name: ui5-tooling-transpile-middleware
+      afterMiddleware: compression
+      configuration:
+        debug: false
+        transpileAsync: true
+        transformModulesToUI5: true # ¡Esto es crucial! Convierte 'import/export' a 'sap.ui.define'
+    - name: ui5-middleware-livereload
+      afterMiddleware: compression
+      configuration:
+        port: 35729
+        path: "webapp"
+type: application
+framework:
+  name: OpenUI5
+  version: "1.136.1"
+  libraries:
+    - name: sap.m
+    - name: sap.ui.core
+    - name: themelib_sap_horizon
