@@ -1,146 +1,132 @@
 
 
-# Proyecto Básico SAPUI5 / OpenUI5
+# SAPUI5 Learning Workspace (Monorepo con pnpm)
 
-Este es un proyecto de inicio ("boilerplate") para una aplicación SAPUI5/OpenUI5. Contiene la configuración mínima necesaria para levantar un servidor de desarrollo local y mostrar un control simple (`sap.m.Button`).
+Este repositorio es un monorepo gestionado con [pnpm](https://pnpm.io/) para organizar y desarrollar múltiples proyectos de aprendizaje de SAPUI5. El uso de un monorepo nos permite centralizar dependencias, simplificar la gestión de proyectos y mantener un entorno de desarrollo consistente.
 
-## Requisitos Previos
+## ✨ Características
 
-- [Node.js](https://nodejs.org/) (versión LTS recomendada).
-- `pnpm` como gestor de paquetes. Puedes instalarlo con `npm install -g pnpm`.
+-   **Gestión Centralizada:** Todas las dependencias se instalan en una única carpeta `node_modules` en la raíz, ahorrando espacio en disco y tiempo de instalación.
+-   **Workflows Simplificados:** Ejecuta comandos para proyectos específicos o para todos a la vez desde la raíz del workspace.
+-   **Dependencias Compartidas:** Herramientas de desarrollo como `@ui5/cli` se instalan una sola vez en la raíz y están disponibles para todos los proyectos.
+-   **Estructura Organizada:** Cada proyecto de SAPUI5 vive en su propia carpeta, manteniendo el código aislado y limpio.
 
-## Estructura del Proyecto
+---
+
+## 🚀 Cómo Empezar
+
+Sigue estos pasos para configurar el entorno de desarrollo en tu máquina local.
+
+### Prerrequisitos
+
+Asegúrate de tener instalado lo siguiente:
+-   [Node.js](https://nodejs.org/) (se recomienda la versión LTS más reciente)
+-   [pnpm](https://pnpm.io/installation) (puedes instalarlo globalmente con `npm install -g pnpm`)
+
+### Instalación
+
+1.  **Clona el repositorio:**
+    ```bash
+    git clone <URL_DE_TU_REPOSITORIO>
+    cd <NOMBRE_DE_LA_CARPETA>
+    ```
+
+2.  **Instala todas las dependencias:**
+    Ejecuta el siguiente comando desde la **carpeta raíz** del proyecto. pnpm leerá el archivo `pnpm-workspace.yaml` e instalará las dependencias de todos los proyectos del workspace.
+    ```bash
+    pnpm install
+    ```
+
+---
+
+## 📂 Estructura del Proyecto
+
+El monorepo está organizado de la siguiente manera:
 
 ```
 /
-|-- webapp/
-|   |-- index.html      # Punto de entrada de la aplicación
-|   |-- index.js        # Lógica inicial de la aplicación (control de botón)
-|   `-- manifest.json   # Descriptor de la aplicación (ID, etc.)
-|-- package.json        # Dependencias de desarrollo y scripts
-`-- ui5.yaml            # Configuración de UI5 Tooling
+├── 📁 01-quickstart/       # Proyecto 1: App básica en JavaScript
+│   ├── 📁 webapp/
+│   ├── 📄 package.json     # Dependencias y scripts de '01-quickstart'
+│   └── 📄 ui5.yaml
+│
+├── 📁 02-project-ts/       # Proyecto 2: App con TypeScript
+│   ├── 📁 webapp/
+│   ├── 📄 package.json     # Dependencias y scripts de '02-project-ts'
+│   └── 📄 ui5.yaml
+│
+├── 📄 .gitignore
+├── 📄 node_modules/       # Creada por pnpm, contiene TODAS las dependencias
+├── 📄 package.json         # package.json raíz para dependencias globales (ej: @ui5/cli)
+├── 📄 pnpm-lock.yaml      # Lockfile de pnpm
+└── 📄 pnpm-workspace.yaml   # ¡CLAVE! Define los proyectos que forman parte del workspace
 ```
-
-## Archivos Clave y su Configuración
-
-A continuación se detallan los archivos principales y el código final que los hace funcionar.
-
-### 1. `package.json`
-
-Define las dependencias de desarrollo (solo la UI5 CLI) y el script para iniciar el servidor.
-
-```json
-{
-  "name": "sapui5",
-  "version": "1.0.0",
-  "description": "Proyecto básico de SAPUI5",
-  "scripts": {
-    "start": "ui5 serve -o index.html"
-  },
-  "devDependencies": {
-    "@ui5/cli": "^4.0.19"
-  }
-}
-```
-
-### 2. `ui5.yaml`
-
-Configura el servidor de desarrollo de UI5. Le indica qué versión del framework usar y qué librerías cargar (como `sap.m` para los controles y `themelib_sap_horizon` para el tema visual). La UI5 CLI se encargará de descargar y servir estas librerías automáticamente.
-
-```yaml
-specVersion: "4.0"
-metadata:
-  name: sapui5
-type: application
-framework:
-  name: OpenUI5
-  version: "1.136.1"
-  libraries:
-    - name: sap.ui.core
-    - name: sap.m
-    - name: themelib_sap_horizon
-```
-
-### 3. `webapp/manifest.json`
-
-El descriptor de la aplicación. Lo más importante aquí es el `id` (`sap.app.id`), que actúa como el "namespace" o identificador único de toda la aplicación.
-
-```json
-{
-  "_version": "1.58.0",
-  "sap.app": {
-    "id": "sapui5"
-  }
-}
-```
-
-### 4. `webapp/index.html`
-
-El archivo HTML principal. Carga el framework de SAPUI5 y conecta el namespace de la aplicación (`sapui5`) con su ubicación física (`./`) usando `data-sap-ui-resource-roots`. Luego, inicializa la aplicación ejecutando el módulo `sapui5/index.js` a través de `data-sap-ui-on-init`.
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Quickstart Tutorial</title>
-    <script id="sap-ui-bootstrap"
-        src="resources/sap-ui-core.js"
-        data-sap-ui-libs="sap.m"
-        data-sap-ui-compat-version="edge"
-        data-sap-ui-theme="sap_horizon_dark"
-        data-sap-ui-async="true"
-        data-sap-ui-on-init="module:sapui5/index"
-        data-sap-ui-resource-roots='{
-            "sapui5": "./"
-        }'>
-    </script>
-</head>
-<body class="sapUiBody" id="content"></body>
-</html>
-```
-
-### 5. `webapp/index.js`
-
-El código JavaScript que se ejecuta al iniciar la aplicación. Crea un botón (`sap.m.Button`) y lo coloca en el elemento del `body` que tiene el `id="content"`.
-
-```javascript
-sap.ui.define([
-    "sap/m/Button",
-    "sap/m/MessageToast"
-], (Button, MessageToast) => {
-    "use strict";
-
-    new Button({
-        text: "Ready...",
-        press() {
-            MessageToast.show("Hello World!");
-        }
-    }).placeAt("content");
-
-});
-```
-
-## Guía de Inicio Rápido
-
-Sigue estos pasos para ejecutar el proyecto en tu máquina local.
-
-### 1. Instalar Dependencias
-
-Abre una terminal en la carpeta raíz del proyecto y ejecuta el siguiente comando para instalar la UI5 CLI:
-
-```bash
-pnpm install
-```
-
-### 2. Iniciar el Servidor de Desarrollo
-
-Una vez instaladas las dependencias, inicia el servidor local con:
-
-```bash
-pnpm start
-```
-
-Este comando ejecutará `ui5 serve -o index.html`. Automáticamente se abrirá una pestaña en tu navegador web predeterminado en `http://localhost:8080/index.html` y deberías ver un botón con el texto "Ready...". Al hacer clic en él, aparecerá un mensaje "Hello World!".
 
 ---
+
+## 🛠️ Comandos Útiles
+
+Todos los comandos deben ejecutarse desde la **carpeta raíz** del monorepo.
+
+### Iniciar un Servidor de Desarrollo
+
+Para ejecutar el servidor de desarrollo de un proyecto específico, usamos el flag `--filter` seguido del nombre del paquete (definido en su `package.json`) o la ruta de la carpeta.
+
+**Ejemplo para el proyecto `01-quickstart`:**
+*(Suponiendo que su `package.json` tiene un script ` "start": "ui5 serve -o /index.html" `)*
+
+```bash
+# Filtrando por el nombre de la carpeta (recomendado)
+pnpm --filter ./01-quickstart start
+
+# O filtrando por el nombre del paquete (ej: "name": "quickstart")
+pnpm --filter quickstart start
+```
+
+**Ejemplo para el proyecto `02-project-ts`:**
+```bash
+# Filtrando por el nombre de la carpeta
+pnpm --filter ./02-project-ts start
+
+# O filtrando por el nombre del paquete (ej: "name": "project-ts")
+pnpm --filter project-ts start
+```
+
+### Ejecutar un Comando en Todos los Proyectos
+
+Puedes ejecutar un script en todos los proyectos a la vez usando el flag `-r` (recursivo).
+
+**Ejemplo para construir todos los proyectos:**
+*(Suponiendo que cada `package.json` tiene un script `"build": "ui5 build"`)*
+```bash
+pnpm -r build
+```
+
+### Añadir una Dependencia a un Proyecto Específico
+
+Para añadir una dependencia a un solo proyecto, usa de nuevo el flag `--filter`.
+
+**Ejemplo: Añadir `moment` al proyecto `02-project-ts`:**
+```bash
+pnpm --filter project-ts add moment
+```
+
+**Para añadir una dependencia de desarrollo (`-D`):**
+```bash
+pnpm --filter project-ts add -D typescript
+```
+
+---
+
+## 🌱 Cómo Añadir un Nuevo Proyecto
+
+1.  Crea una nueva carpeta en la raíz (ej: `03-new-project`).
+2.  Dentro de la nueva carpeta, crea su `package.json` (con un `"name"` único), su `ui5.yaml` y su estructura de `webapp`.
+3.  **Importante:** Añade la nueva carpeta al archivo `pnpm-workspace.yaml` en la raíz del proyecto.
+    ```yaml
+    packages:
+      - '01-quickstart'
+      - '02-project-ts'
+      - '03-new-project' # <-- Añade la nueva línea aquí
+    ```
+4.  Vuelve a la raíz y ejecuta `pnpm install` para que pnpm reconozca el nuevo proyecto y enlace sus dependencias.

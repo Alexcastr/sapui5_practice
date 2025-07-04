@@ -1,0 +1,7 @@
+packages:
+  # Incluye todos los proyectos en las carpetas que empiezan con números
+  - '01-quickstart'
+  - '02-project-ts'
+  # Si en el futuro añades más, puedes seguir añadiéndolos a la lista
+  # o usar un comodín (glob pattern) como:
+  # - 'packages/*'

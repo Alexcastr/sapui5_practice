@@ -1,15 +1,6 @@
 {
-  "name": "sapui5",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "ui5 serve -o index.html"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "packageManager": "pnpm@10.12.4",
+  "name": "sapui5-workspace",
+  "private": true,
   "devDependencies": {
     "@ui5/cli": "^4.0.19"
   }

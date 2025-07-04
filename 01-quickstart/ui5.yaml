@@ -15,3 +15,5 @@ framework:
     - name: sap.ui.core
     - name: sap.m
     - name: themelib_sap_horizon
+    - name: sap.ui.layout
+    - name: sap.tnt
