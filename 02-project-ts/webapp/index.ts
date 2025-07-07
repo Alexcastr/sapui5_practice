@@ -1,7 +1,11 @@
-import XMLView from "sap/ui/core/mvc/XMLView";
+import ComponentContainer from "sap/ui/core/ComponentContainer";
 
-XMLView.create({
-    viewName: "02-project-ts.view.App"
-}).then(function (view) {
-    view.placeAt("content");
-});
+new ComponentContainer({
+    id: "container",
+    name: "02-project-ts",
+    settings: {
+        id: "02-project-ts"
+    },
+    autoPrefixId: true,
+    async: true
+}).placeAt("content");
