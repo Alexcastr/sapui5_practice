@@ -1,5 +1,7 @@
-import Text from "sap/m/Text";
+import XMLView from "sap/ui/core/mvc/XMLView";
 
-new Text({
-    text: "Hello World"
-}).placeAt("content");
+XMLView.create({
+    viewName: "02-project-ts.view.App"
+}).then(function (view) {
+    view.placeAt("content");
+});
