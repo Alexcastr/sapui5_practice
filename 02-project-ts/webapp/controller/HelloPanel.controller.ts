@@ -27,5 +27,11 @@ export default class HelloPanel extends Controller {
          name: "02-project-ts.view.HelloDialog"
       }) as Dialog;
       this.dialog.open();
-    }   
+    } 
+    
+    onCloseDialog(): void {
+        // note: We don't need to chain to the pDialog promise, since this event-handler
+        // is only called from within the loaded dialog itself.
+        (this.byId("helloDialog") as Dialog)?.close();
+    }        
 };
