@@ -10,8 +10,7 @@
          <Page title="{i18n>homePageTitle}">
             <content>
              <mvc:XMLView viewName="02-project-ts.view.HelloPanel"/>
-             <mvc:XMLView
-                                    viewName="02-project-ts.view.InvoiceList"/>
+             <mvc:XMLView viewName="02-project-ts.view.InvoiceList"/>
             </content>
          </Page>
       </pages>
