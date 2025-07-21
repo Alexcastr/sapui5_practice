@@ -12,6 +12,8 @@
       "paths": {
         "ui5/02-project-ts/*": ["webapp/*"]
       }
-    },
+    },"types": [
+      "@types/openui5"
+    ],
     "include": ["webapp/**/*"]
   }

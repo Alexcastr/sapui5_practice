@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "UI5 TypeScript Walkthrough",
     "scripts": {
-        "start": "ui5 serve -o index.html"
+        "start": "ui5 serve -o test/mockServer.html"
     },
     "devDependencies": {
         "@types/openui5": "^1.136.0",
