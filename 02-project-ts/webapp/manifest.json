@@ -10,6 +10,15 @@
             ],
             "fallbackLocale": ""
         },
+        "dataSources": {
+			"invoiceRemote": {
+				"uri": "V2/Northwind/Northwind.svc/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0"
+				}
+			}
+		},
         "title": "{{appTitle}}",
         "description": "{{appDescription}}",
         "applicationVersion": {

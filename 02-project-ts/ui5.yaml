@@ -14,6 +14,11 @@ server:
       configuration:
         port: 35729
         path: "webapp"
+    - name: ui5-middleware-simpleproxy
+      afterMiddleware: compression
+      mountPath: /V2
+      configuration:
+        baseUri: "https://services.odata.org"
 type: application
 framework:
   name: OpenUI5
