@@ -11,14 +11,14 @@
             "fallbackLocale": ""
         },
         "dataSources": {
-			"invoiceRemote": {
-				"uri": "V2/Northwind/Northwind.svc/",
-				"type": "OData",
-				"settings": {
-					"odataVersion": "2.0"
-				}
-			}
-		},
+            "invoiceRemote": {
+                "uri": "V2/Northwind/Northwind.svc/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0"
+                }
+            }
+        },
         "title": "{{appTitle}}",
         "description": "{{appDescription}}",
         "applicationVersion": {
@@ -34,6 +34,38 @@
         }
     },
     "sap.ui5": {
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "type": "View",
+                "viewType": "XML",
+                "path": "02-project-ts.view",
+                "controlId": "app",
+                "controlAggregation": "pages"
+            },
+            "routes": [
+                {
+                    "pattern": "",
+                    "name": "overview",
+                    "target": "overview"
+                },
+                {
+                    "pattern": "detail",
+                    "name": "detail",
+                    "target": "detail"
+                }
+            ],
+            "targets": {
+                "overview": {
+                    "id": "overview",
+                    "name": "Overview"
+                },
+                "detail": {
+                    "id": "detail",
+                    "name": "Detail"
+                }
+            }
+        },
         "contentDensities": {
             "compact": true,
             "cozy": true
@@ -44,7 +76,6 @@
                 "sap.ui.core": {},
                 "sap.m": {}
             }
-            
         },
         "rootView": {
             "viewName": "ui5.02-project-ts.view.App",
@@ -58,20 +89,21 @@
                 }
             ]
         },
-
         "models": {
-          "i18n": {
-            "type": "sap.ui.model.resource.ResourceModel",
-            "settings": {
-              "bundleName": "ui5.02-project-ts.i18n.i18n",
-              "supportedLocales": [""],
-              "fallbackLocale": ""
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "ui5.02-project-ts.i18n.i18n",
+                    "supportedLocales": [
+                        ""
+                    ],
+                    "fallbackLocale": ""
+                }
+            },
+            "invoice": {
+                "type": "sap.ui.model.json.JSONModel",
+                "uri": "model/localInvoices.json"
             }
-          },
-          "invoice": {
-            "type": "sap.ui.model.json.JSONModel",
-            "uri": "model/localInvoices.json"
-          }
         }
     }
 }

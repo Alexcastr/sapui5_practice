@@ -30,6 +30,8 @@ export default class Component extends UIComponent {
             bundleName: "02-project-ts.i18n.i18n"
         });
         this.setModel(i18nModel, "i18n");
+        
+        this.getRouter().initialize();
     };
 
     createContent(): Control | Promise<Control | null> | null {
