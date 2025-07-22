@@ -26,15 +26,27 @@ export default class App extends Controller {
     }
 
     onFilterInvoices(event: SearchField$SearchEvent): void {
-        // build filter array
-        const filter = [];
-        const query = event.getParameter("query");
-        if (query) {
-            filter.push(new Filter("ProductName", FilterOperator.Contains, query));
-        }
-        // filter binding
+    const query = event.getParameter("query");
+
+    if (!query) {
+        // Si no hay query, quitamos los filtros
         const list = this.byId("invoiceList");
         const binding = list?.getBinding("items") as ListBinding;
-        binding?.filter(filter);
+        binding?.filter([]);
+        return;
     }
+
+    // Filtro por dos campos: ProductName Y QuantityPerUnit
+    const filters = new Filter({
+        filters: [
+            new Filter("ProductName", FilterOperator.Contains, query),
+            new Filter("ShipperName", FilterOperator.Contains, query)
+        ],
+        and: false // false = operador OR, true = AND
+    });
+
+    const list = this.byId("invoiceList");
+    const binding = list?.getBinding("items") as ListBinding;
+    binding?.filter(filters);
+}
 };

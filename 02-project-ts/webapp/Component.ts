@@ -19,7 +19,7 @@ export default class Component extends UIComponent {
         // set data model
         const data = {
             recipient: {
-                name: "World"
+                name: "manual data binding",
             }
         };
         const dataModel = new JSONModel(data);
