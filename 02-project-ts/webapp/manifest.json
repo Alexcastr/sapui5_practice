@@ -93,11 +93,12 @@
             "i18n": {
                 "type": "sap.ui.model.resource.ResourceModel",
                 "settings": {
-                    "bundleName": "ui5.02-project-ts.i18n.i18n",
+                    "bundleName": "02-project-ts.i18n.i18n",
                     "supportedLocales": [
-                        ""
+                        "en",
+                        "es"
                     ],
-                    "fallbackLocale": ""
+                    "fallbackLocale": "en"
                 }
             },
             "invoice": {

@@ -24,12 +24,6 @@ export default class Component extends UIComponent {
         };
         const dataModel = new JSONModel(data);
         this.setModel(dataModel);
-
-        // set i18n model
-        const i18nModel = new ResourceModel({
-            bundleName: "02-project-ts.i18n.i18n"
-        });
-        this.setModel(i18nModel, "i18n");
         
         this.getRouter().initialize();
     };
