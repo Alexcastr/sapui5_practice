@@ -12,7 +12,7 @@
         },
         "dataSources": {
             "invoiceRemote": {
-                "uri": "V2/Northwind/Northwind.svc/",
+                "uri": "/sap/opu/odata/iwbep/GWSAMPLE_BASIC/?sap-client=800",
                 "type": "OData",
                 "settings": {
                     "odataVersion": "2.0"
@@ -75,7 +75,9 @@
             "libs": {
                 "sap.ui.core": {},
                 "sap.m": {},
-                "sap.uxap": {} 
+                "sap.uxap": {},
+                "sap.f": {},
+                 "sap.ui.table": {}
             }
         },
         "rootView": {
@@ -103,8 +105,13 @@
                 }
             },
             "invoice": {
-                "type": "sap.ui.model.json.JSONModel",
-                "uri": "model/localInvoices.json"
+                "dataSource": "invoiceRemote",
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "useBatch": true,
+                    "json": true
+                }
             }
         }
     }

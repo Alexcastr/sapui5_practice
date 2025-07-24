@@ -19,6 +19,16 @@ server:
       mountPath: /V2
       configuration:
         baseUri: "https://services.odata.org"
+    - name: ui5-middleware-simpleproxy
+      afterMiddleware: compression
+      mountPath: /sap # Cambiamos el punto de montaje a /sap, es más intuitivo
+      configuration:
+        baseUri: "http://s4h22.sap4practice.com:8007" # La URL de tu destino
+        auth:
+          # Aquí van las credenciales que te dieron.
+          # ¡Esto es SOLO para desarrollo local!
+          user: "fpm" 
+          password: "LogaliGroup25"
 type: application
 framework:
   name: OpenUI5
@@ -28,3 +38,5 @@ framework:
     - name: sap.ui.core
     - name: themelib_sap_horizon
     - name: sap.uxap
+    - name: sap.f
+    - name: sap.ui.table

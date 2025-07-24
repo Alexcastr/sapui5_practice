@@ -1,12 +1,81 @@
 <mvc:View
-    controllerName="02-project-ts.controller.App"
+    controllerName="02-project-ts.controller.Overview"
     xmlns="sap.m"
     xmlns:mvc="sap.ui.core.mvc"
-    displayBlock="true">
-    <Page title="{i18n>homePageTitle}">
-        <content>
-            <mvc:XMLView viewName="02-project-ts.view.HelloPanel" />
-            <mvc:XMLView viewName="02-project-ts.view.InvoiceList" />
-        </content>
-    </Page>
+    xmlns:f="sap.f"
+    xmlns:table="sap.ui.table"
+    xmlns:core="sap.ui.core">
+
+    <f:DynamicPage id="dynamicPageId">
+        <f:title>
+            <f:DynamicPageTitle>
+                <f:heading>
+                    <Title text="{i18n>homePageTitle}" />
+                </f:heading>
+                <f:actions>
+                    <ToolbarSpacer/>
+                    <SearchField placeholder="Buscar producto..." width="60%" search=".onFilterInvoices"/>
+                </f:actions>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:content>
+            <table:Table
+                id="invoiceTable"
+                rows="{path: 'invoice>/ProductSet'}" 
+                selectionMode="Single"
+                rowActionCount="1"
+                visibleRowCount="15"
+                ariaLabelledBy="title">
+                <table:extension>
+                    <OverflowToolbar>
+                        <Title id="title" text="Productos"/>
+                    </OverflowToolbar>
+                </table:extension>
+                <table:columns>
+                    <table:Column width="11rem" sortProperty="Name">
+                        <Label text="Producto"/>
+                        <table:template>
+                            <Text text="{invoice>Name}" wrapping="false"/>
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="9rem" sortProperty="Category">
+                        <Label text="Categoría"/>
+                        <table:template>
+                            <Text text="{invoice>Category}" wrapping="false"/>
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="6rem" hAlign="End" sortProperty="Quantity">
+                        <Label text="Stock"/>
+                        <table:template>
+                            <Text text="{invoice>Quantity}"/>
+                        </table:template>
+                    </table:Column>
+                     <table:Column width="8rem" hAlign="End" sortProperty="Price">
+                        <Label text="Precio"/>
+                        <table:template>
+                           <ObjectNumber
+                                number="{invoice>Price}" 
+                                unit="{invoice>CurrencyCode}"/>
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="8rem" sortProperty="SupplierName">
+                         <Label text="Proveedor"/>
+                         <table:template>
+                            <Text text="{invoice>SupplierName}"/>
+                         </table:template> <!-- ESTA ES LA ETIQUETA CORREGIDA -->
+                    </table:Column>
+                </table:columns>
+                
+                <!-- He vuelto a añadir la acción de fila para la navegación -->
+                <table:rowActionTemplate>
+                    <table:RowAction>
+                        <table:items>
+                            <table:RowActionItem type="Navigation" press=".onPress"/>
+                        </table:items>
+                    </table:RowAction>
+                </table:rowActionTemplate>
+
+            </table:Table>
+        </f:content>
+    </f:DynamicPage>
 </mvc:View>
