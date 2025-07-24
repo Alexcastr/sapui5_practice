@@ -1,14 +1,78 @@
 <mvc:View
+    controllerName="02-project-ts.controller.Detail"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:uxap="sap.uxap"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core">
 
-controllerName="02-project-ts.controller.Detail"
-	xmlns="sap.m"
-	xmlns:mvc="sap.ui.core.mvc">
-	<Page
-		title="{i18n>detailPageTitle}"
-		showNavButton="true"
-		navButtonPress=".onNavBack">
-		
-		<ObjectHeader intro="{invoice>ShipperName}"
-			title="{invoice>ProductName}"/>
-	</Page>
+    <!-- 1. Se reemplaza "Page" por "ObjectPageLayout" como control principal. -->
+    <!-- Mantenemos la navegación con showNavButton y navButtonPress -->
+    <uxap:ObjectPageLayout
+        id="ObjectPageLayout"
+        showNavButton="true"
+        >
+
+        <!-- 2. El título y la información principal van en la agregación "headerTitle". -->
+        <!-- Usamos un "ObjectPageHeader" que está diseñado para este layout. -->
+        <uxap:headerTitle>
+            <uxap:ObjectPageHeader
+			     id="pageHeader" 
+                objectTitle="{invoice>ProductName}"
+                objectSubtitle="{invoice>ShipperName}">
+                <!-- Aquí podrías agregar más información de cabecera si quisieras, como contadores o estados. -->
+            </uxap:ObjectPageHeader>
+        </uxap:headerTitle>
+
+        <!-- 3. El contenido principal de la página va dentro de la agregación "sections". -->
+        <uxap:sections>
+
+            <!-- Cada sección puede tener su propio título. -->
+            <uxap:ObjectPageSection title="Detalles del Pedido">
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection>
+                        <!-- Dentro de una sub-sección, los controles se agrupan en "blocks". -->
+                        <!-- Usamos un SimpleForm para mostrar los datos de forma organizada. -->
+                        <uxap:blocks>
+                            <form:SimpleForm
+                                maxContainerCols="2"
+                                editable="false"
+                                layout="ResponsiveGridLayout"
+                                labelSpanL="3"
+                                labelSpanM="3"
+                                emptySpanL="4"
+                                emptySpanM="4"
+                                columnsL="1"
+                                columnsM="1">
+                                <form:content>
+                                    <!-- Reutilizamos la lógica y el binding que ya tenías en la lista -->
+                                    <Label text="Cantidad"/>
+                                    <Text text="{invoice>Quantity}"/>
+
+                                    <Label text="Precio Total"/>
+                                    <ObjectNumber
+                                        number="{
+                                            parts: ['invoice>ExtendedPrice', 'view>/currency'],
+                                            type: 'sap.ui.model.type.Currency',
+                                            formatOptions: { showMeasure: false }
+                                        }"
+                                        unit="{view>/currency}"
+                                        state="{= ${invoice>ExtendedPrice} > 50 ? 'Error' : 'Success' }"/>
+
+                                    <Label text="Estado"/>
+                                    <ObjectStatus
+                                        core:require="{ Formatter: '02-project-ts/model/formatter' }"
+                                        text="{
+                                            path: 'invoice>Status',
+                                         formatter: '.formatter.statusText'
+                                        }"/>
+                                </form:content>
+                            </form:SimpleForm>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+
+        </uxap:sections>
+    </uxap:ObjectPageLayout>
 </mvc:View>

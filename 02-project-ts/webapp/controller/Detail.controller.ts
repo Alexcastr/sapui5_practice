@@ -1,37 +1,39 @@
 import { Route$PatternMatchedEvent } from "sap/ui/core/routing/Route";
-
 import UIComponent from "sap/ui/core/UIComponent";
 import Controller from "sap/ui/core/mvc/Controller";
 import History from "sap/ui/core/routing/History";
+// YA NO NECESITAS IMPORTAR ObjectPageLayout, PERO SÍ ObjectPageHeader
+import ObjectPageHeader from "sap/uxap/ObjectPageHeader"; 
+import formatter from "../model/formatter";
 
 export default class Detail extends Controller {
-
-    // en onInit():
+    public formatter = formatter; 
+    
     onInit(): void {
         const router = UIComponent.getRouterFor(this);
-
-        // Obtenemos la ruta y la guardamos en una variable
         const detailRoute = router.getRoute("detail");
-
-        // "Guarda": Si la ruta existe (no es undefined), entonces le adjuntamos el evento.
         if (detailRoute) {
             detailRoute.attachPatternMatched(this.onObjectMatched, this);
         }
+
+        // --- INICIO DE LA CORRECCIÓN ---
+        // Obtenemos el HEADER por su nuevo ID
+        const pageHeader = this.byId("pageHeader") as ObjectPageHeader;
+        
+        // Adjuntamos el evento 'navButtonPress' AL HEADER
+        if (pageHeader) {
+            pageHeader.attachEvent("navButtonPress", () => {
+                this.onNavBack();
+            });
+        }
+        // --- FIN DE LA CORRECCIÓN ---
     }
 
-    // en onObjectMatched():
+    // El resto del controlador (onObjectMatched, onNavBack) es correcto y no cambia.
     onObjectMatched(event: Route$PatternMatchedEvent): void {
-        // 1. Obtener los argumentos de forma segura
-        // El tipo correcto es un objeto que puede tener una propiedad 'invoicePath' de tipo string.
         const args = event.getParameter("arguments") as { invoicePath?: string };
-
-        // 2. Solo si el argumento 'invoicePath' existe, continuamos.
         if (args && args.invoicePath) {
             const decodedPath = window.decodeURIComponent(args.invoicePath);
-
-            // 3. Usamos Optional Chaining (?.) para llamar a .bindElement()
-            // Esto significa: "Si this.getView() devuelve una vista, llama a .bindElement() en ella.
-            // Si es undefined, no hagas nada y evita el error."
             this.getView()?.bindElement({
                 path: "/" + decodedPath,
                 model: "invoice"
@@ -41,11 +43,9 @@ export default class Detail extends Controller {
 
     onNavBack(): void {
         const history = History.getInstance();
-
         const previousHash = history.getPreviousHash();
 
         if (previousHash !== undefined) {
-            console.log("Previous Hash:", previousHash);
             window.history.go(-1);
         } else {
             const router = UIComponent.getRouterFor(this);
