@@ -62,11 +62,11 @@
                          <Label text="Proveedor"/>
                          <table:template>
                             <Text text="{invoice>SupplierName}"/>
-                         </table:template> <!-- ESTA ES LA ETIQUETA CORREGIDA -->
+                         </table:template> 
                     </table:Column>
                 </table:columns>
                 
-                <!-- He vuelto a añadir la acción de fila para la navegación -->
+                <!--  fila para la navegación -->
                 <table:rowActionTemplate>
                     <table:RowAction>
                         <table:items>

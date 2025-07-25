@@ -12,7 +12,7 @@
         },
         "dataSources": {
             "invoiceRemote": {
-                "uri": "/sap/opu/odata/iwbep/GWSAMPLE_BASIC/?sap-client=800",
+                "uri": "/sap/opu/odata/iwbep/GWSAMPLE_BASIC",
                 "type": "OData",
                 "settings": {
                     "odataVersion": "2.0"
@@ -77,7 +77,7 @@
                 "sap.m": {},
                 "sap.uxap": {},
                 "sap.f": {},
-                 "sap.ui.table": {}
+                "sap.ui.table": {}
             }
         },
         "rootView": {
