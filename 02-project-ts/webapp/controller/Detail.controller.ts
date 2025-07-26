@@ -1,53 +1,40 @@
-import { Route$PatternMatchedEvent } from "sap/ui/core/routing/Route";
-import UIComponent from "sap/ui/core/UIComponent";
 import Controller from "sap/ui/core/mvc/Controller";
+import UIComponent from "sap/ui/core/UIComponent";
 import History from "sap/ui/core/routing/History";
-// YA NO NECESITAS IMPORTAR ObjectPageLayout, PERO SÍ ObjectPageHeader
-import ObjectPageHeader from "sap/uxap/ObjectPageHeader"; 
-import formatter from "../model/formatter";
+import { Route$PatternMatchedEvent } from "sap/ui/core/routing/Route";
 
 export default class Detail extends Controller {
-    public formatter = formatter; 
     
-    onInit(): void {
+    public onInit(): void {
         const router = UIComponent.getRouterFor(this);
-        const detailRoute = router.getRoute("detail");
-        if (detailRoute) {
-            detailRoute.attachPatternMatched(this.onObjectMatched, this);
-        }
-
-        // --- INICIO DE LA CORRECCIÓN ---
-        // Obtenemos el HEADER por su nuevo ID
-        const pageHeader = this.byId("pageHeader") as ObjectPageHeader;
-        
-        // Adjuntamos el evento 'navButtonPress' AL HEADER
-        if (pageHeader) {
-            pageHeader.attachEvent("navButtonPress", () => {
-                this.onNavBack();
-            });
-        }
-        // --- FIN DE LA CORRECCIÓN ---
+        // Escuchamos el evento de la ruta "detail" para saber cuándo navegaron a esta vista
+        router.getRoute("detail")?.attachPatternMatched(this.onObjectMatched, this);
     }
 
-    // El resto del controlador (onObjectMatched, onNavBack) es correcto y no cambia.
-    onObjectMatched(event: Route$PatternMatchedEvent): void {
+    // Esta función se ejecuta cuando la URL coincide con el patrón de la ruta "detail"
+    public onObjectMatched(event: Route$PatternMatchedEvent): void {
+        // Obtenemos el parámetro 'invoicePath' que pasamos desde la tabla
         const args = event.getParameter("arguments") as { invoicePath?: string };
         if (args && args.invoicePath) {
+            // Decodificamos la ruta para que sea un path válido para el binding
             const decodedPath = window.decodeURIComponent(args.invoicePath);
+            // Hacemos el binding de toda la vista al producto específico
             this.getView()?.bindElement({
                 path: "/" + decodedPath,
-                model: "invoice"
+                model: "invoice" // Seguimos usando el modelo "invoice"
             });
         }
     }
 
-    onNavBack(): void {
+    // Función para navegar hacia atrás
+    public onNavBack(): void {
         const history = History.getInstance();
         const previousHash = history.getPreviousHash();
 
         if (previousHash !== undefined) {
             window.history.go(-1);
         } else {
+            // Si no hay historial, volvemos a la vista principal
             const router = UIComponent.getRouterFor(this);
             router.navTo("overview", {}, true);
         }

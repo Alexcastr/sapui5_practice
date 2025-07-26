@@ -9,6 +9,7 @@ import { SearchField$SearchEvent } from "sap/m/SearchField";
 import formatter from "../model/formatter";
 import RowAction from "sap/ui/table/RowAction";
 import RowSettings from "sap/ui/table/RowSettings";
+import ListBinding from "sap/ui/model/ListBinding";
 
 export default class Overview extends Controller {
     
@@ -34,24 +35,35 @@ export default class Overview extends Controller {
         }
     }
 
-    onFilterInvoices(event: SearchField$SearchEvent): void {
-        const query = event.getParameter("query");
-        const table = this.byId("invoiceTable") as Table;
-        const binding = table.getBinding("rows");
+   onFilterInvoices(event: SearchField$SearchEvent): void {
+    // 1. Obtener el texto de búsqueda del evento
+    const query = event.getParameter("query");
 
-        if (!query) {
-            // binding.filter([]);
-            return;
-        }
+    // 2. Obtener la referencia a nuestra tabla
+    const table = this.byId("invoiceTable") as Table;
 
-        const filters = new Filter({
-            filters: [
-                new Filter("ProductName", FilterOperator.Contains, query),
-                new Filter("ShipperName", FilterOperator.Contains, query)
-            ],
-            and: false
-        });
+    // 3. Obtener el "binding" de las filas y HACER EL CAST a ListBinding
+    // Esta es la corrección clave para que TypeScript entienda que hay un método .filter()
+    const binding = table.getBinding("rows") as ListBinding;
 
-        // binding.filter(filters);
+    // 4. Si la búsqueda está vacía, eliminamos todos los filtros
+    if (!query) {
+        binding?.filter([]); // Pasamos un array vacío para quitar filtros
+        return;
     }
+
+    // 5. Si hay texto, creamos los filtros.
+    // En este caso, buscaremos en los campos Name, Category y SupplierName.
+    const filters = new Filter({
+        filters: [
+            new Filter("Name", FilterOperator.Contains, query),
+            new Filter("Category", FilterOperator.Contains, query),
+            new Filter("SupplierName", FilterOperator.Contains, query)
+        ],
+        and: false // 'false' significa que buscará si CUALQUIERA de las condiciones se cumple (OR)
+    });
+
+    // 6. Aplicamos el filtro al binding de la tabla
+    binding?.filter(filters);
+}
 }

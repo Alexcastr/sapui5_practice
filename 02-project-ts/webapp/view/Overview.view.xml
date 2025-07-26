@@ -28,38 +28,38 @@
                 ariaLabelledBy="title">
                 <table:extension>
                     <OverflowToolbar>
-                        <Title id="title" text="Productos"/>
+                        <Title id="title" text="{i18n>product}"/>
                     </OverflowToolbar>
                 </table:extension>
                 <table:columns>
-                    <table:Column width="11rem" sortProperty="Name">
-                        <Label text="Producto"/>
+                    <table:Column width="auto" sortProperty="Name">
+                        <Label text="{i18n>product}"/>
                         <table:template>
                             <Text text="{invoice>Name}" wrapping="false"/>
                         </table:template>
                     </table:Column>
-                    <table:Column width="9rem" sortProperty="Category">
-                        <Label text="Categoría"/>
+                    <table:Column width="auto" sortProperty="Category">
+                        <Label text="{i18n>category}"/>
                         <table:template>
-                            <Text text="{invoice>Category}" wrapping="false"/>
+                            <Text text="{invoice>category}" wrapping="false"/>
                         </table:template>
                     </table:Column>
-                    <table:Column width="6rem" hAlign="End" sortProperty="Quantity">
-                        <Label text="Stock"/>
+                    <table:Column width="auto" hAlign="End" sortProperty="Quantity">
+                        <Label text="{i18n>description}"/>
                         <table:template>
-                            <Text text="{invoice>Quantity}"/>
+                            <Text text="{invoice>Description}"/>
                         </table:template>
                     </table:Column>
-                     <table:Column width="8rem" hAlign="End" sortProperty="Price">
-                        <Label text="Precio"/>
+                     <table:Column width="auto" hAlign="End" sortProperty="Price">
+                        <Label text="{i18n>price}"/>
                         <table:template>
                            <ObjectNumber
                                 number="{invoice>Price}" 
                                 unit="{invoice>CurrencyCode}"/>
                         </table:template>
                     </table:Column>
-                    <table:Column width="8rem" sortProperty="SupplierName">
-                         <Label text="Proveedor"/>
+                    <table:Column width="auto" sortProperty="SupplierName">
+                         <Label text="{i18n>supplier}"/>
                          <table:template>
                             <Text text="{invoice>SupplierName}"/>
                          </table:template> 
