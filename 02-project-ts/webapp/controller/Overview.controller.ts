@@ -1,25 +1,46 @@
+
+import UIComponent from "sap/ui/core/UIComponent";
+import ListBinding from "sap/ui/model/ListBinding";
 import Controller from "sap/ui/core/mvc/Controller";
 import JSONModel from "sap/ui/model/json/JSONModel";
-import Filter from "sap/ui/model/Filter";
-import FilterOperator from "sap/ui/model/FilterOperator";
-import UIComponent from "sap/ui/core/UIComponent";
-import Event from "sap/ui/base/Event";
-import Table from "sap/ui/table/Table";
-import { SearchField$SearchEvent } from "sap/m/SearchField";
 import formatter from "../model/formatter";
 import RowAction from "sap/ui/table/RowAction";
-import RowSettings from "sap/ui/table/RowSettings";
-import ListBinding from "sap/ui/model/ListBinding";
+
+import Event from "sap/ui/base/Event";
+import Table from "sap/ui/table/Table";
+
+import { SearchField$SearchEvent } from "sap/m/SearchField";
+import { applyProductFilter } from "../utils/filterHelper";
 
 export default class Overview extends Controller {
-    
+
     public formatter = formatter;
+    /** Este método lo compartiremos */
+    public triggerFilter(query: string) {
+        const oEventBus = this.getOwnerComponent()?.getEventBus();
+        oEventBus?.publish("MyAppChannel", "FilterProducts", { query });
+    }
+
+    /** Ejemplo: llamas a triggerFilter desde algún botón extra */
+    public onCustomButtonPress(): void {
+        // por ejemplo, leer el valor de otro Input
+        const customQuery = "algún texto";
+        this.triggerFilter(customQuery);
+    }
 
     onInit(): void {
         const viewModel = new JSONModel({
             currency: "EUR"
         });
         this.getView()?.setModel(viewModel, "view");
+        this.getOwnerComponent()!
+            .getEventBus()
+            .subscribe(
+                "MyAppChannel",
+                "FilterProducts",
+                this._onFilterRequested,
+                this
+            );
     }
 
     onPress(event: Event): void {
@@ -35,35 +56,34 @@ export default class Overview extends Controller {
         }
     }
 
-   onFilterInvoices(event: SearchField$SearchEvent): void {
-    // 1. Obtener el texto de búsqueda del evento
-    const query = event.getParameter("query");
-
-    // 2. Obtener la referencia a nuestra tabla
-    const table = this.byId("invoiceTable") as Table;
-
-    // 3. Obtener el "binding" de las filas y HACER EL CAST a ListBinding
-    // Esta es la corrección clave para que TypeScript entienda que hay un método .filter()
-    const binding = table.getBinding("rows") as ListBinding;
-
-    // 4. Si la búsqueda está vacía, eliminamos todos los filtros
-    if (!query) {
-        binding?.filter([]); // Pasamos un array vacío para quitar filtros
-        return;
+    private _onFilterRequested(
+        _sChannel: string,
+        _sEvent: string,
+        data: object
+    ): void {
+        const { query } = data as { query: string };
+        const table = this.byId("invoiceTable") as Table;
+        const binding = table.getBinding("rows") as ListBinding;
+        applyProductFilter(binding, query);
     }
 
-    // 5. Si hay texto, creamos los filtros.
-    // En este caso, buscaremos en los campos Name, Category y SupplierName.
-    const filters = new Filter({
-        filters: [
-            new Filter("Name", FilterOperator.Contains, query),
-            new Filter("Category", FilterOperator.Contains, query),
-            new Filter("SupplierName", FilterOperator.Contains, query)
-        ],
-        and: false // 'false' significa que buscará si CUALQUIERA de las condiciones se cumple (OR)
-    });
+    public onExit(): void {
+        this.getOwnerComponent()!
+            .getEventBus()
+            .unsubscribe(
+                "MyAppChannel",
+                "FilterProducts",
+                this._onFilterRequested,
+                this
+            );
+    }
 
-    // 6. Aplicamos el filtro al binding de la tabla
-    binding?.filter(filters);
-}
+
+    public onFilterInvoices(event: SearchField$SearchEvent): void {
+        const query = event.getParameter("query") || "";
+        // **solo** publícalo:
+        this.getOwnerComponent()!
+            .getEventBus()
+            .publish("MyAppChannel", "FilterProducts", { query });
+    }
 }
