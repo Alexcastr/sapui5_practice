@@ -34,6 +34,10 @@ export default class Component extends UIComponent {
         this.getRouter().initialize();
     };
 
+    getContentDensityClass(): string {
+        return Device.support.touch ? "sapUiSizeCozy" : "sapUiSizeCompact";
+    }
+
     createContent(): Control | Promise<Control | null> | null {
         return XMLView.create({
             "viewName": "02-project-ts.view.App",
