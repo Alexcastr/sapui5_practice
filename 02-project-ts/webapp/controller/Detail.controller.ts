@@ -4,6 +4,10 @@ import UIComponent from "sap/ui/core/UIComponent";
 import Controller from "sap/ui/core/mvc/Controller";
 import History from "sap/ui/core/routing/History";
 
+import MessageToast from "sap/m/MessageToast";
+import ProductRating, { ProductRating$ChangeEvent } from "../control/ProductRating";
+import ResourceBundle from "sap/base/i18n/ResourceBundle";
+import ResourceModel from "sap/ui/model/resource/ResourceModel";
 export default class Detail extends Controller {
 
     // en onInit():
@@ -21,22 +25,12 @@ export default class Detail extends Controller {
 
     // en onObjectMatched():
     onObjectMatched(event: Route$PatternMatchedEvent): void {
-        // 1. Obtener los argumentos de forma segura
-        // El tipo correcto es un objeto que puede tener una propiedad 'invoicePath' de tipo string.
-        const args = event.getParameter("arguments") as { invoicePath?: string };
 
-        // 2. Solo si el argumento 'invoicePath' existe, continuamos.
-        if (args && args.invoicePath) {
-            const decodedPath = window.decodeURIComponent(args.invoicePath);
-
-            // 3. Usamos Optional Chaining (?.) para llamar a .bindElement()
-            // Esto significa: "Si this.getView() devuelve una vista, llama a .bindElement() en ella.
-            // Si es undefined, no hagas nada y evita el error."
-            this.getView()?.bindElement({
-                path: "/" + decodedPath,
-                model: "invoice"
-            });
-        }
+        (<ProductRating>this.byId("rating")).reset();
+        this.getView()?.bindElement({
+            path: "/" + window.decodeURIComponent((<any>event.getParameter("arguments")).invoicePath),
+            model: "invoice"
+        });
     }
 
     onNavBack(): void {
@@ -52,4 +46,15 @@ export default class Detail extends Controller {
             router.navTo("overview", {}, true);
         }
     }
-};
+    onRatingChange(event: ProductRating$ChangeEvent): void {
+        const value = event.getParameter("value")!;
+        const oView = this.getView();
+        const oResModel = oView?.getModel("i18n");
+        if (!oResModel) {
+            // no i18n model? bail or show a plain toast
+            MessageToast.show(`You rated ${value}`);
+            return;
+        }
+    }
+
+}

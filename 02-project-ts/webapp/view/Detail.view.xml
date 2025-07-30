@@ -2,7 +2,8 @@
 
 controllerName="02-project-ts.controller.Detail"
 	xmlns="sap.m"
-	xmlns:mvc="sap.ui.core.mvc">
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:wt="02-project-ts.control">
 	<Page
 		title="{i18n>detailPageTitle}"
 		showNavButton="true"
@@ -10,5 +11,10 @@ controllerName="02-project-ts.controller.Detail"
 		
 		<ObjectHeader intro="{invoice>ShipperName}"
 			title="{invoice>ProductName}"/>
+			<wt:ProductRating 
+			id="rating"
+			tooltip="{invoice>ProductName}"
+			class="sapUiSmallMarginBeginEnd" 
+			change=".onRatingChange"/>
 	</Page>
 </mvc:View>
