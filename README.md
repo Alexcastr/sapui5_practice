@@ -148,3 +148,10 @@ packages:
 ```
 
 4. Vuelve a la raíz y ejecuta `pnpm install` para que pnpm reconozca el nuevo proyecto y enlace sus dependencias.
+
+# opción A: desde la raíz del monorepo
+pnpm --filter "./03-presentation" exec ui5 add @openui5/sap.m
+
+# opción B: entrando al directorio y usando npx
+cd 03-presentation
+npx ui5 add @openui5/sap.m

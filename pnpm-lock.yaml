@@ -46,6 +46,27 @@ importers:
         specifier: ^3.8.0
         version: 3.8.0
 
+  03-presentation:
+    devDependencies:
+      '@openui5/sap.m':
+        specifier: ^1.138.0
+        version: 1.138.0
+      '@types/openui5':
+        specifier: ^1.136.0
+        version: 1.136.0
+      '@ui5/cli':
+        specifier: ^4.0.19
+        version: 4.0.19
+      ui5-middleware-livereload:
+        specifier: ^3.1.1
+        version: 3.1.1
+      ui5-middleware-serveframework:
+        specifier: ^3.6.0
+        version: 3.6.0(@ui5/builder@4.0.7)(@ui5/project@4.0.4(@ui5/builder@4.0.7))(encoding@0.1.13)
+      ui5-tooling-transpile:
+        specifier: ^3.8.0
+        version: 3.8.0
+
 packages:
 
   '@adobe/css-tools@4.4.3':
@@ -784,6 +805,18 @@ packages:
   '@opentelemetry/semantic-conventions@1.36.0':
     resolution: {integrity: sha512-TtxJSRD8Ohxp6bKkhrm27JRHAxPczQA7idtcTOMYI+wQRRrfgqxHv1cFbCApcSnNjtXkmzFozn6jQtFrOmbjPQ==}
     engines: {node: '>=14'}
+
+  '@openui5/sap.m@1.138.0':
+    resolution: {integrity: sha512-ZORKu6kVmzpVJtGJeB4W22Wzf3WrQE+XETzAEv63rKFWI6poiT6N8H1mvrMbUGPN4UJBK430rTkIn5d+7IFvGQ==}
+
+  '@openui5/sap.ui.core@1.138.0':
+    resolution: {integrity: sha512-ckJvJXGWA6VhbsMGvs0M4UbPq0AOMmq9Tc/DlRU+LsFKNoS5DLhcFR6e3ew9t2yCEdTURylAyrqM/hKAggXMrA==}
+
+  '@openui5/sap.ui.layout@1.138.0':
+    resolution: {integrity: sha512-wKHXfaPUz3cRzKTtKHk53y4AgvwA8ubdw5Lwyn5A3hF0/GK30qjeolt4xw0w+U8hCXtX+mOnAtyGWp4k+l/5AA==}
+
+  '@openui5/sap.ui.unified@1.138.0':
+    resolution: {integrity: sha512-2xIVrABGfBoCLjDgi+pJ+RZWq/01i2JHLBUsVi+2y+PiQKt78gsTaC4BmIE+Jn7Nb6IZRuKsQKMKEua21aahUA==}
 
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
@@ -4758,6 +4791,22 @@ snapshots:
   '@opentelemetry/semantic-conventions@1.28.0': {}
 
   '@opentelemetry/semantic-conventions@1.36.0': {}
+
+  '@openui5/sap.m@1.138.0':
+    dependencies:
+      '@openui5/sap.ui.core': 1.138.0
+      '@openui5/sap.ui.layout': 1.138.0
+      '@openui5/sap.ui.unified': 1.138.0
+
+  '@openui5/sap.ui.core@1.138.0': {}
+
+  '@openui5/sap.ui.layout@1.138.0':
+    dependencies:
+      '@openui5/sap.ui.core': 1.138.0
+
+  '@openui5/sap.ui.unified@1.138.0':
+    dependencies:
+      '@openui5/sap.ui.core': 1.138.0
 
   '@pkgjs/parseargs@0.11.0':
     optional: true
