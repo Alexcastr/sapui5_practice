@@ -1,0 +1,82 @@
+<mvc:View
+    controllerName="test2.controller.Overview"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.f"
+    xmlns:table="sap.ui.table"
+    xmlns:core="sap.ui.core">
+
+    <f:DynamicPage id="dynamicPageId">
+        <f:title>
+            <f:DynamicPageTitle>
+                <f:heading>
+                    <Title text="{i18n>homePageTitle}" />
+                </f:heading>
+                <f:actions>
+                    <ToolbarSpacer/>
+                    <SearchField placeholder="Buscar producto..." width="60%" search=".onFilterInvoices"/>
+                </f:actions>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:content>
+            <table:Table
+                visibleRowCountMode="Auto"
+                id="invoiceTable"
+                rows="{path: 'invoice>/ProductSet'}" 
+                selectionMode="Single"
+                rowActionCount="1"
+                visibleRowCount="15"
+                ariaLabelledBy="title">
+                <table:extension>
+                    <OverflowToolbar>
+                        <Title id="title" text="{i18n>product}"/>
+                    </OverflowToolbar>
+                </table:extension>
+                <table:columns>
+                    <table:Column width="auto" sortProperty="Name">
+                        <Label text="{i18n>product}"/>
+                        <table:template>
+                            <Text text="{invoice>Name}" wrapping="false"/>
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="auto" sortProperty="Category">
+                        <Label text="{i18n>category}"/>
+                        <table:template>
+                            <Text text="{invoice>Category}" wrapping="false"/>
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="auto" hAlign="End" sortProperty="Quantity">
+                        <Label text="{i18n>description}"/>
+                        <table:template>
+                            <Text text="{invoice>Description}"/>
+                        </table:template>
+                    </table:Column>
+                     <table:Column width="auto" hAlign="End" sortProperty="Price">
+                        <Label text="{i18n>price}"/>
+                        <table:template>
+                           <ObjectNumber
+                                number="{invoice>Price}" 
+                                unit="{invoice>CurrencyCode}"/>
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="auto" sortProperty="SupplierName">
+                         <Label text="{i18n>supplier}"/>
+                         <table:template>
+                            <Text text="{invoice>SupplierName}"/>
+                         </table:template> 
+                    </table:Column>
+                </table:columns>
+                
+                <!--  fila para la navegación -->
+                <table:rowActionTemplate>
+                    <table:RowAction>
+                        <table:items>
+                            <table:RowActionItem type="Navigation" press=".onPress"/>
+                        </table:items>
+                    </table:RowAction>
+                </table:rowActionTemplate>
+
+            </table:Table>
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>

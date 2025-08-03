@@ -1,0 +1,112 @@
+{
+  "_version": "1.65.0",
+  "sap.app": {
+    "type": "application",
+    "i18n": {
+      "bundleName": "test2.i18n.i18n",
+      "supportedLocales": [
+        "es",
+        "en"
+      ],
+      "fallbackLocale": "es"
+    },
+    "dataSources": {
+      "invoiceRemote": {
+        "uri": "/sap/opu/odata/iwbep/GWSAMPLE_BASIC",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "2.0"
+        }
+      }
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "applicationVersion": {
+      "version": "1.0.0"
+    },
+    "id": "test2"
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "type": "View",
+        "viewType": "XML",
+        "path": "test2.view",
+        "controlId": "app",
+        "controlAggregation": "pages"
+      },
+      "routes": [
+        {
+          "pattern": "",
+          "name": "overview",
+          "target": "overview"
+        },
+        {
+          "pattern": "detail/{invoicePath}",
+          "name": "detail",
+          "target": "detail"
+        }
+      ],
+      "targets": {
+        "overview": {
+          "id": "overview",
+          "name": "Overview"
+        },
+        "detail": {
+          "id": "detail",
+          "name": "Detail"
+        }
+      }
+    },
+    "dependencies": {
+      "minUI5Version": "1.120",
+      "libs": {
+        "sap.ui.core": {},
+        "sap.m": {},
+        "sap.uxap": {},
+        "sap.f": {},
+        "sap.ui.table": {}
+      }
+    },
+    "rootView": {
+      "viewName": "test2.view.App",
+      "type": "XML",
+      "id": "app"
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "test2.i18n.i18n",
+          "supportedLocales": [
+            "es",
+            "en"
+          ],
+          "fallbackLocale": "es"
+        }
+      },
+      "invoice": {
+        "dataSource": "invoiceRemote",
+        "type": "sap.ui.model.odata.v2.ODataModel",
+        "settings": {
+          "defaultBindingMode": "TwoWay",
+          "useBatch": true,
+          "json": true
+        }
+      }
+    }
+  }
+}

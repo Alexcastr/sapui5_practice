@@ -1,0 +1,54 @@
+<mvc:View
+    controllerName="test2.controller.Detail"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:uxap="sap.uxap"
+    xmlns:form="sap.ui.layout.form">
+
+    <uxap:ObjectPageLayout
+        id="ObjectPageLayout"
+   >
+
+        <uxap:headerTitle>
+            <uxap:ObjectPageHeader
+                id="pageHeader"
+                objectTitle="{invoice>Name}"
+                objectSubtitle="{invoice>SupplierName}">
+
+             
+
+            </uxap:ObjectPageHeader>
+        </uxap:headerTitle>
+
+        <uxap:sections>
+            <uxap:ObjectPageSection title="Detalles del Producto">
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection>
+                        <uxap:blocks>
+                            <form:SimpleForm
+                                maxContainerCols="2"
+                                editable="false"
+                                layout="ResponsiveGridLayout"
+                                labelSpanL="3"
+                                labelSpanM="3"
+                                emptySpanL="4"
+                                emptySpanM="4"
+                                columnsL="1"
+                                columnsM="1">
+                                <form:content>
+                                    <Label text="Categoría"/>
+                                    <Text text="{invoice>Category}"/>
+                                    <Label text="Descripción"/>
+                                    <Text text="{invoice>Description}"/>
+                                    <Label text="Proveedor"/>
+                                    <Text text="{invoice>SupplierName}"/>
+                                </form:content>
+                            </form:SimpleForm>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+        </uxap:sections>
+
+    </uxap:ObjectPageLayout>
+</mvc:View>
