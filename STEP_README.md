@@ -4,7 +4,7 @@ step by step
 1. globally install **npm install --global @ui5/cli**
 2. créate **webapp** folder 
 3. **index.html** with the necesary dependencies 
-
+3.5. Create **manifest.json** initial config
 
 ```Html
 
@@ -44,8 +44,10 @@ sap.ui.define([
 ```
 
 5. install using **ui5**  
-  - ui5 use OpenUI5
-  - ui5 add sap.m sap.tnt sap.ui.core sap.ui.layout themelib_sap_horizon
+  - make sure to have already install the node_modules before the next step *npm i* or *pnpm add @ui5/cli*
+  - *npm exec ui5 init*
+  - *ui5 use OpenUI5*
+  - *ui5 add sap.m sap.tnt sap.ui.core sap.ui.layout themelib_sap_horizon*
   - **npm install typescript ui5-tooling-transpile --save-dev**  ts middlaware
 
 6. configure the ui5.yml middlaware 
@@ -65,7 +67,7 @@ server:
 ```Bash
 
 {
- { "name": "test1",
+ "name": "test1",
   "version": "1.0.0",
   "description": "The UI5 test1 tutorial",
   "scripts": {
@@ -73,6 +75,7 @@ server:
   },
   "devDependencies": {
     "@ui5/cli": "^4.0.22"
+}
 }
 
 ```
@@ -129,6 +132,15 @@ export default class AppController extends Controller {
      }
 };
 
+# index.ts  👇
+
+import XMLView from "sap/ui/core/mvc/XMLView";
+
+XMLView.create({
+    viewName: "test2.view.App"
+}).then(function (view) {
+    view.placeAt("content");
+});
 
 ```
 
@@ -186,9 +198,8 @@ export default class AppController extends Controller {
 - clean the **app.controller.ts** and add the component container in the **index.ts**
 
 ```JS
-import Control from "sap/ui/core/Control";
+// Component.ts
 import UIComponent from "sap/ui/core/UIComponent";
-import XMLView from "sap/ui/core/mvc/XMLView";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import ResourceModel from "sap/ui/model/resource/ResourceModel";
 
@@ -196,9 +207,10 @@ import ResourceModel from "sap/ui/model/resource/ResourceModel";
 * @namespace test1
 */
 export default class Component extends UIComponent {
-public static metadata = {
-"interfaces": ["sap.ui.core.IAsyncContentCreation"]
-};
+    public static metadata = {
+        "interfaces": ["sap.ui.core.IAsyncContentCreation"],
+        "manifest": "json"
+    };
     init(): void {
         // call the init function of the parent 
         super.init();
@@ -217,15 +229,21 @@ public static metadata = {
             bundleName: "test1.i18n.i18n"
         });
         this.setModel(i18nModel, "i18n");
+
+        // <<< ESTA LÍNEA ES LA CLAVE >>>
+        this.getRouter().initialize();
+
     };
 
-    createContent(): Control | Promise<Control | null> | null {
-        return XMLView.create({
-            "viewName": "test1.view.App",
-            "id": "app"
-        });
-    };
+    // createContent(): Control | Promise<Control | null> | null {
+    //     return XMLView.create({
+    //         "viewName": "test1.view.App",
+    //         "id": "app"
+    //     });
+    // };
+
 };
+
 
 
 ```
@@ -437,3 +455,6 @@ builder:
 - Importante agregar la linea en el **Component.ts**
 // <<< ESTA LÍNEA ES LA CLAVE >>>
         this.getRouter().initialize();
+
+- copiar *App.controller.ts* *Detail.controller.ts*  y *Overview.controller.ts* 
+- copiar  <App id="app"/> y el *Detail.view.xml* *Overview.view.xml*
